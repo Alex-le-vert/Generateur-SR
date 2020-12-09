@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+		<title>Générateur : Il est temps de...</title>
+		
+		<link href="css/styles.css" rel="stylesheet" type="text/css">
+
+		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+		<script src="https://cdn.jsdelivr.net/npm/js-base64@3.6.0/base64.min.js"></script>
+		<script src="https://github.com/hongru/canvas2image/blob/master/canvas2image.js" type="text/javascript"></script>
+
+	</head>
+	
+<script type="text/javascript">
+
+function start(){
+
+    // the imgs[] array now holds fully loaded images
+    // the imgs[] are in the same order as imageURLs[]
+
+}
+
+	$(document).ready(function(){
+		$(".playground .line1").trigger("focus");
+		$(".playground input").on('keyup', (function(){
+			if($(".playground .line1").val() == "" || $(".playground .line2").val() == ""){
+				if($(".playground .line1").val() == "" && $(".playground .line2").val() == ""){
+					$(".playground input.line1").attr("placeholder", "changer");
+					$(".playground input.line2").attr("placeholder", "les politiques");
+					$(".playground input").removeClass("active");
+				}else{
+					$(".playground input").attr("placeholder", "");
+					$(".playground input").addClass("active");					
+				}
+			}
+		}));
+
+	});
+
+	var line1 = "changer";
+	var line2 = "les politiques";
+
+	function oneline(line1) {
+		
+		var c = document.getElementById("canvas");
+		var ctx=c.getContext("2d");
+
+		ctx.rect(0,0,600,600);
+		ctx.fillStyle="#033f2d";
+		ctx.fill();
+		
+		ctx.fillStyle= "#76cea4";
+		ctx.textAlign="center"; 
+		
+		ctx.font="bold 65px Apercu Pro"; 
+
+		ctx.fillText("IL EST",300,265);
+		ctx.fillStyle= "white";
+		ctx.fillText("TEMPS DE",300,325);
+
+	    ctx.fillStyle= "#d90000";
+		ctx.textAlign="center"; 
+
+		ctx.font="bold 65px Apercu Pro"; 
+
+		ctx.fillText(line1,300,385);
+		
+		ctx.fillStyle= "white";
+		ctx.textAlign="center"; 
+
+		ctx.font="30px Apercu Pro"; 
+
+		ctx.fillText("sandrinerousseau.fr",300,520);
+		
+	}
+
+	function twolines(line1, line2) {
+		
+		var c = document.getElementById("canvas");
+		var ctx=c.getContext("2d");
+
+		ctx.rect(0,0,600,600);
+		ctx.fillStyle="#033f2d";
+		ctx.fill();
+
+	    ctx.fillStyle= "#76cea4";
+		ctx.textAlign="center"; 
+		
+		ctx.font="bold 65px Apercu Pro"; 
+
+		ctx.fillText("IL EST",300,235); 
+		ctx.fillText("TEMPS DE",300,295);
+
+		ctx.font="65px Apercu Pro"; 
+		
+		ctx.fillStyle= "white";
+		ctx.textAlign="center"; 
+
+		ctx.fillText(line1,300,355);
+		ctx.fillStyle= "#d90000";
+		ctx.fillText(line2,300,415); 
+		
+		ctx.fillStyle= "white";
+		ctx.textAlign="center"; 
+
+		ctx.font="30px Apercu Pro"; 
+
+		ctx.fillText("sandrinerousseau.fr",300,520);
+		
+	}
+
+	function dl()  {
+
+		var line1 = $(".line1").val().toUpperCase().trim();
+		var line2 = $(".line2").val().toUpperCase().trim();
+
+		if (line1 != '' || line2 != ''){
+
+
+			if (line1 == '' || line2 == ''){
+				if(line1 == ''){
+					line1 = line2;
+				}else if(line2 == ''){
+					line1 = line1;
+				}
+				oneline(line1);
+				
+			}else{
+				twolines(line1, line2);
+			}
+
+			var screenshot = Canvas2Image.saveAsPNG(canvas, true);
+
+			// This is a little trick to get the SRC attribute from the generated <img> screenshot
+			canvas.parentNode.appendChild(screenshot);
+			screenshot.id = "canvasimage";		
+			data = $('#canvasimage').attr('src');
+			slug = (line1 + " " +line2).toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+			canvas.parentNode.removeChild(screenshot);
+
+
+			// Send the screenshot to PHP to save it on the server
+			var url = 'upload/export.php';
+			$.ajax({ 
+			    type: "POST", 
+			    url: url,
+			    dataType: 'text',
+			    data: {
+			        base64data : data,
+			        slug : slug
+			    }
+			});
+
+			setTimeout(function(){ document.location = 'upload/dl.php?img=' + slug;}, 1000 ); 
+
+		}else{
+			alert("Il faut écrire au moins une ligne de texte !");
+		}
+	}
+
+</script>
+	
+<body>
+		
+	<div class="playground">
+		<form id ="generator">
+		<div style="text-align: center;">
+       Il est temps de
+			<input maxlength="16" class="line1 transition" type="text" placeholder="changer"/>
+			<input maxlength="16" class="line2 transition" type="text" placeholder="les politiques" />
+		</form>
+
+		<a class="dl" href="#" onClick="dl()"><span>❇️<span/></a>
+		</div>
+		<div style="text-align: center;">
+	<canvas  width="600" height="600" id="canvas"></canvas>
+		</div>
+</body>
+<div style="text-align: center;">
+<a href="https://www.sandrinerousseau.fr/">
+<img id="logo" width="200" height="110" src="https://www.zupimages.net/up/20/50/vi6m.png" alt="Logo"></a></div>
+</html>
