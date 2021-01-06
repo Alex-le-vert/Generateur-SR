@@ -1,0 +1,119 @@
+body,
+html{
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	display: block;
+	position: relative;
+}
+
+.playground{
+	width: 600px;
+	height: 600px;
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	background: #033f2d;
+	color: #fff;
+	font-family: Apercu Pro, Helvetica, Arial, sans-serif;
+	font-size: 65px;
+	line-height: 60px;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.line1{
+	top: 265px;
+	left: 0;
+}
+
+.line2{
+	top: 325px;
+	left: 0;
+}
+
+.playground input{
+	background: transparent;
+	border: none;
+	color: #fff;
+	font-family: Apercu Pro, Helvetica, Arial, sans-serif;
+	font-size: 65px;
+	line-height: 60px;
+	text-align: center;
+	text-transform: uppercase;
+	padding: 0;
+	margin: 0 5%;
+	width: 90%;
+	height: 78px;
+	position: absolute;
+	opacity: 0.6;
+	overflow: hidden;
+	outline: none;
+}
+
+.playground input:active { 
+	pointer-events:none; 
+}
+
+
+.playground input.active{
+	opacity: 1;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #fff;
+    line-height: 78px;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #fff;
+   opacity:  0.8;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #fff;
+   opacity:  0.8;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #fff;
+}
+
+.playground span{
+	display: block;
+	position: absolute;
+	width: 100%;
+	top: 295px;
+}
+
+.dl{
+	display: block;
+	width: 80px;
+	height: 80px;
+	position: absolute;
+	left: 50%;
+	margin-left: -40px;
+	bottom: 60px;
+}
+
+.dl img{
+	width: 100%;
+	height: auto;
+	display: block;
+	position: relative;
+	cursor: pointer;
+}
+
+#canvas{
+	display: none;
+}
+
+.transition{
+	transition:all ease 0.4s;
+	-o-transition:all ease 0.4s;
+	-ms-transition:all ease 0.4s;
+	-moz-transition:all ease 0.4s;
+	-webkit-transition:all ease 0.4s;
+}
